@@ -8,27 +8,32 @@ bool fileExists(const std::string& filePath) {
     return file.good();
 }
 
-int main () {
+int main() {
     char buffer[MAX_PATH];
     GetModuleFileNameA(NULL, buffer, MAX_PATH);
     std::string currentPath(buffer);
-    std::string exePath = currentPath.substr(0, currentPath.find_last_of("\\/")) + "\\hlvr.exe";
-    if (pos != std::string::npos) {
-        exepath = std::string(buffer).substr(0, pos);
-    }
+    size_t pos = currentPath.find_last_of("\\/");
+    std::string exeDir = (pos != std::string::npos) ? currentPath.substr(0, pos) : ".";
 
-    else {
-        exepath = ".\\game\\bin\\win64";
-    }   std::string hlvrPath = exepath + "\\hlvr.exe";
-    
+    std::string hlvrPath;
+
+    // Check if hlvr.exe is in the same directory as the launcher
+    hlvrPath = exeDir + "\\hlvr.exe";
     if (fileExists(hlvrPath)) {
-        MessageBoxA(NULL, "Are you certain you're running this from the correct directory? It should be placed right next to the game folder inside the main Half-Life Alyx folder. Try again and if it still has trouble, look for the hlvr.exe file in the game\\bin\\win64 folder and run that directly.", "HLA Launcher Error", MB_OK | MB_ICONERROR);
-        return 1;
+        // Launcher is placed in game\bin\win64
+    } else {
+        // Check in game\bin\win64 relative to launcher directory
+        hlvrPath = exeDir + "\\game\\bin\\win64\\hlvr.exe";
+        if (!fileExists(hlvrPath)) {
+            MessageBoxA(NULL, "Failed to find hlvr.exe. Ensure the launcher is placed in the Half-Life Alyx root folder or in the game\\bin\\win64 folder.", "HLA Launcher Error", MB_OK | MB_ICONERROR);
+            return 1;
+        }
     }
 
     STARTUPINFOA si = { sizeof(si) };
     PROCESS_INFORMATION pi;
-    std::wstring commandLine = L".\\game\\bin\\win64\\hlvr.exe -vr -steam -noasserts -nopassiveasserts +map startup";
+    std::string commandLineStr = "\"" + hlvrPath + "\" -vr -steam -noasserts -nopassiveasserts +map startup";
+    std::wstring commandLine(commandLineStr.begin(), commandLineStr.end());
     BOOL result = CreateProcessW(
         NULL,
         &commandLine[0],
@@ -43,9 +48,7 @@ int main () {
     );
 
     if (!result) {
-        MessageBoxA(NULL, "Failed to launch Half-Life: Alyx. Please ensure the game is installed correctly. This shouldn't happen.", "HLA Launcher Error", MB_OK | MB_ICONERROR);
-        return 1;
-    }
+        MessageBoxA(NULL, "Failed to launch Half-Life: Alyx. Unfortunately, I don't have the slightest clue why. Sorry.", "HLA Launcher Error", MB_OK | MB_ICONERROR);
     CloseHandle(pi.hProcess);
     CloseHandle(pi.hThread);
     return 0;
