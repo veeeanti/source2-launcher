@@ -30,4 +30,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: build-x64
-        path: build/Release/
+        path: build/bin/Release/
