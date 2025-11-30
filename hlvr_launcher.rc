@@ -17,7 +17,7 @@ VS_VERSION_INFO VERSIONINFO
 BEGIN
     BLOCK "StringFileInfo"
     BEGIN
-        BLOCK
+        BLOCK "040904E4"   // LANG_ENGLISH, CP_UNICODE
         BEGIN
             VALUE "CompanyName", "veeanti"
             VALUE "FileDescription", "Half-Life: Alyx"
@@ -29,8 +29,9 @@ BEGIN
             VALUE "ProductVersion", "1.0.0.0"
         END
     END
+
     BLOCK "VarFileInfo"
     BEGIN
-        VALUE "Translation", 0x0409, 0x04E4
+        VALUE "Translation", 0x0409, 0x04E4  // same language+codepage as above
     END
 END
