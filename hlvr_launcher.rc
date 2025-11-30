@@ -20,12 +20,12 @@ BEGIN
         BLOCK "040904E4"   // LANG_ENGLISH, CP_UNICODE
         BEGIN
             VALUE "CompanyName", "veeanti"
-            VALUE "FileDescription", "Half-Life: Alyx"
+            VALUE "FileDescription", "Half-Life: Alyx NoVR"
             VALUE "FileVersion", "1.0.0.0"
             VALUE "InternalName", "hlvr_launcher"
             VALUE "LegalCopyright", "union-crax.xyz"
             VALUE "OriginalFilename", "hlvr_launcher.exe"
-            VALUE "ProductName", "Half-Life: Alyx Launcher W/ Full VR Support"
+            VALUE "ProductName", "Half-Life: Alyx NoVR Launcher"
             VALUE "ProductVersion", "1.0.0.0"
         END
     END

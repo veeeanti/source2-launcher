@@ -24,26 +24,17 @@ int main() {
     size_t pos = currentPath.find_last_of("\\/");
     std::string exeDir = (pos != std::string::npos) ? currentPath.substr(0, pos) : ".";
 
-    std::string hlvrPath = exeDir + "\\hlvr.exe";
+    std::string hlvrPath = exeDir + "\\game\\bin\\win64\\HLA-NoVR-Launcher_veeanti.1.exe";
 
-    // Check if hlvr.exe exists next to launcher
     if (!fileExists(hlvrPath)) {
-        // Check in game\bin\win64
-        hlvrPath = exeDir + "\\game\\bin\\win64\\hlvr.exe";
-
-        if (!fileExists(hlvrPath)) {
-            MessageBoxA(NULL,
-                "Failed to find hlvr.exe. Ensure the launcher is placed in the "
-                "Half-Life Alyx root folder or in the game\\bin\\win64 folder.",
-                "HLA Launcher Error", MB_OK | MB_ICONERROR);
-            return 1;
-        }
+        MessageBoxA(NULL,
+            "Failed to find hlvr.exe in game\\bin\\win64.",
+            "HLANoVR Launcher Error", MB_OK | MB_ICONERROR);
+        return 1;
     }
 
     // Command line
-    std::string commandLineStr =
-        "\"" + hlvrPath +
-        "\" -vr -steam -noasserts -nopassiveasserts +map startup";
+    std::string commandLineStr = "\"" + hlvrPath + "\"";
 
     std::wstring cmdW = toWide(commandLineStr);  // safe conversion
 
@@ -70,7 +61,7 @@ int main() {
     if (!result) {
         MessageBoxA(NULL,
             "Failed to launch Half-Life: Alyx.\nCreateProcessW() failed.",
-            "HLA Launcher Error",
+            "HLANoVR Launcher Error",
             MB_OK | MB_ICONERROR);
         return 1;
     }
